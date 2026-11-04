@@ -421,6 +421,79 @@ dialog::backdrop { background: rgba(21, 47, 39, .68); backdrop-filter: blur(4px)
   .evidence-gallery img { height: 210px; }
 }
 
+/* 프로젝트 하단 경력기술서 다운로드 */
+
+.project-document {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.project-document-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+
+    padding: 12px 18px;
+
+    color: #244c42;
+    background: transparent;
+    border: 1px solid rgba(36, 76, 66, 0.35);
+    border-radius: 4px;
+
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.project-document-btn__icon {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+/* 마우스 오버 */
+
+.project-document-btn:hover {
+    background: #244c42;
+    color: #fff;
+    border-color: #244c42;
+    transform: translateY(-2px);
+}
+
+.project-document-btn:hover .project-document-btn__icon {
+    transform: translateY(3px);
+}
+
+/* 키보드 접근성 */
+
+.project-document-btn:focus-visible {
+    outline: 2px solid #244c42;
+    outline-offset: 4px;
+}
+
+/* 모바일 */
+
+@media (max-width: 600px) {
+    .project-document {
+        margin-top: 18px;
+    }
+
+    .project-document-btn {
+        padding: 11px 15px;
+        font-size: 12px;
+        gap: 20px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .project-card, .project-visual, .real-visual img, .detail-button span { transition: none; }
