@@ -450,3 +450,88 @@ dialog::backdrop { background: rgba(21, 47, 39, .68); backdrop-filter: blur(4px)
   .project-card, .project-card::before, .project-visual, .project-visual::after, .visual-detail-cue, .visual-detail-cue i, .real-visual img, .detail-button span, .discovery-tip { transition: none; }
   .project-card:hover, .project-card:focus-within, .project-card:hover .project-visual, .project-card:focus-within .project-visual { transform: none; }
 }
+
+/* ========================================
+   경력기술서 다운로드 버튼
+======================================== */
+
+/* 가운데 정렬 */
+.project-document {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 30px 0 10px;
+}
+
+/* 버튼 디자인 */
+a.project-document-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+
+    min-width: 240px;
+    padding: 15px 28px;
+
+    background-color: #284d41 !important;
+    color: #ffffff !important;
+
+    border: 1px solid #284d41 !important;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none !important;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(40, 77, 65, 0.12);
+
+    transition:
+        background-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* 화살표 */
+.project-document-btn__icon {
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1;
+    transition: transform 0.25s ease;
+}
+
+/* 마우스 오버 */
+a.project-document-btn:hover {
+    background-color: #19382f !important;
+    color: #ffffff !important;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 20px rgba(40, 77, 65, 0.22);
+}
+
+a.project-document-btn:hover .project-document-btn__icon {
+    transform: translateY(3px);
+}
+
+/* 키보드 접근성 */
+a.project-document-btn:focus-visible {
+    outline: 2px solid #284d41;
+    outline-offset: 4px;
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+    .project-document {
+        margin-top: 24px;
+    }
+
+    a.project-document-btn {
+        min-width: 220px;
+        padding: 13px 22px;
+        font-size: 13px;
+    }
+}
