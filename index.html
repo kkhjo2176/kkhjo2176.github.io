@@ -13,7 +13,7 @@
   <a class="skip" href="#main">본문으로 이동</a>
 
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="김동현 개발자 포트폴리오 홈">김동현<span> / </span>dev.</a>
+    <a class="brand" href="#home" aria-label="ㄷㄷㄷ 개발자 포트폴리오 홈">ㄷㄷㄷ<span> / </span>dev.</a>
     <nav aria-label="주 메뉴">
       <a href="#stack">기술</a>
       <a href="#projects">프로젝트</a>
@@ -53,6 +53,7 @@
           <div><p class="eyebrow">TECH STACK / 01</p><h2>기술은 사용한 맥락으로 설명합니다.</h2></div>
           <p>숙련도 수치 대신, 실무·프로젝트·학습 경험과<br>실제 적용한 기능을 연결했습니다.</p>
         </div>
+        <p class="mobile-discovery-hint">💡 기술을 선택하면 실제 활용 경험을 볼 수 있습니다.</p>
         <div class="experience-legend" aria-label="활용 경험 범례">
           <span><i class="level-dot professional"></i>Professional <small>회사 업무</small></span>
           <span><i class="level-dot project"></i>Project <small>교육 팀 프로젝트</small></span>
@@ -70,6 +71,7 @@
         <div><p class="eyebrow">SELECTED PROJECTS / 02</p><h2>무엇을 맡고, 어떻게 구현했는지</h2></div>
         <p>카드는 핵심만 보여주고, 상세보기에서<br>담당 범위·구현 방식·문제 해결을 확인할 수 있습니다.</p>
       </div>
+      <p class="mobile-discovery-hint">💡 프로젝트 카드를 누르면 자세한 구현 내용을 볼 수 있습니다.</p>
       <div class="filters" role="group" aria-label="프로젝트 분류">
         <button class="active" data-filter="all" aria-pressed="true">전체 <span>6</span></button>
         <button data-filter="work" aria-pressed="false">실무 프로젝트 <span>4</span></button>
@@ -77,17 +79,6 @@
       </div>
       <div class="project-grid" id="project-grid"></div>
       <p class="project-note">실무 프로젝트는 공개 가능한 범위의 개념도와 구현 설명을 사용했습니다. 교육 프로젝트는 담당 기능과 팀 결과를 구분하고 GitHub·실제 화면을 연결했습니다.</p>
-
-      <div class="project-document">
-          <a
-              href="./assets/documents/career-description.docx"
-              class="project-document-btn"
-              download
-          >
-              <span>상세 경력 기술서 보기</span>
-              <span class="project-document-btn__icon" aria-hidden="true">↓</span>
-          </a>
-      </div>
     </section>
 
     <section class="additional" id="additional">
@@ -129,8 +120,8 @@
       <div class="about-panel">
         <p class="eyebrow">ABOUT & CONTACT / 05</p>
         <div class="profile-row">
-          <div class="profile-photo"><img src="assets/profile-placeholder.png" alt="김동현 개발자 프로필 일러스트"></div>
-          <div class="about-copy"><span>FULL-STACK DEVELOPER · 김동현</span><h2>다음 개발자도 이해할 수 있는 코드.</h2><p>유지보수에서 가장 어려운 일은 기존 코드의 의도를 파악하는 것이었습니다. 로그와 데이터, 코드 흐름을 함께 살피며 원인을 찾고 같은 문제가 반복되지 않도록 개선해 왔습니다.</p><p>실무에서 익힌 문제 해결 방식 위에 Java·Spring Boot 경험을 확장하며, 업무를 오래 지탱하는 개발을 지향합니다.</p></div>
+          <div class="profile-photo"><img src="assets/profile-placeholder.png" alt="ㄷㄷㄷ 개발자 프로필 일러스트"></div>
+          <div class="about-copy"><span>FULL-STACK DEVELOPER · ㄷㄷㄷ</span><h2>다음 개발자도 이해할 수 있는 코드.</h2><p>유지보수에서 가장 어려운 일은 기존 코드의 의도를 파악하는 것이었습니다. 로그와 데이터, 코드 흐름을 함께 살피며 원인을 찾고 같은 문제가 반복되지 않도록 개선해 왔습니다.</p><p>실무에서 익힌 문제 해결 방식 위에 Java·Spring Boot 경험을 확장하며, 업무를 오래 지탱하는 개발을 지향합니다.</p></div>
         </div>
         <div class="about-bottom">
           <div class="contact-list" id="contact"><span>CONTACT</span><a href="https://github.com/kkhjo2176" target="_blank" rel="noopener noreferrer"><b>GitHub</b> github.com/kkhjo2176 ↗</a><a href="https://kkhjo2176.github.io/" target="_blank" rel="noopener noreferrer"><b>Portfolio</b> kkhjo2176.github.io ↗</a><button class="copy-link" id="copy-link" type="button"><b>Share</b> 포트폴리오 주소 복사 ↗</button><small id="copy-status" role="status"></small></div>
@@ -143,7 +134,13 @@
     </section>
   </main>
 
-  <footer class="wrap"><a class="brand" href="#home">김동현<span> / </span>dev.</a><span>업무를 이해하고, 문제를 해결해 서비스로 만드는 개발자.</span><a href="#home">맨 위로 ↑</a></footer>
+  <footer class="wrap"><a class="brand" href="#home">ㄷㄷㄷ<span> / </span>dev.</a><span>업무를 이해하고, 문제를 해결해 서비스로 만드는 개발자.</span><a href="#home">맨 위로 ↑</a></footer>
+
+  <aside class="discovery-tip" id="discovery-tip" aria-live="polite" aria-atomic="true" aria-hidden="true" inert>
+    <button class="discovery-tip-close" id="discovery-tip-close" type="button" aria-label="안내 닫기">×</button>
+    <strong id="discovery-tip-title"></strong>
+    <p id="discovery-tip-description"></p>
+  </aside>
 
   <dialog id="project-dialog" aria-labelledby="dialog-title">
     <button id="close-dialog" type="button" aria-label="프로젝트 상세 닫기">✕</button>
