@@ -73,8 +73,8 @@ h2 { margin: 0; font-size: clamp(29px, 3vw, 37px); line-height: 1.32; letter-spa
 .mobile-discovery-hint { display: none; }
 
 /* Contextual interaction guide */
-.discovery-tip { position: fixed; right: 24px; bottom: 24px; z-index: 30; width: min(320px, calc(100vw - 48px)); padding: 18px 42px 17px 19px; border: 1px solid #edc6a5; border-radius: 12px; background: #fff3e8; color: #62452f; box-shadow: 0 12px 32px rgba(95, 64, 39, .13); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px); transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s; }
-.discovery-tip.is-visible { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); transition-delay: 0s; }
+.discovery-tip { position: fixed; left: 50%; bottom: 24px; z-index: 30; width: min(320px, calc(100vw - 48px)); padding: 18px 42px 17px 19px; border: 1px solid #edc6a5; border-radius: 12px; background: #fff3e8; color: #62452f; box-shadow: 0 12px 32px rgba(95, 64, 39, .13); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 12px); transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s; }
+.discovery-tip.is-visible { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0); transition-delay: 0s; }
 body.modal-open .discovery-tip { opacity: 0; visibility: hidden; pointer-events: none; transition: none; }
 .discovery-tip strong { display: block; color: #71472a; font-size: 14px; line-height: 1.45; letter-spacing: -.2px; }
 .discovery-tip p { margin: 7px 0 0; color: #765e4b; font-size: 12px; line-height: 1.65; }
