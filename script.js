@@ -1,212 +1,677 @@
-const projects=[
+const projects = [
   {
-    "id": "erp",
-    "type": "work",
-    "title": "ERP를 웹으로 옮기는 일",
-    "period": "2022.09 — 2025.09",
-    "subtitle": "Vue 3 기반 ERP 웹 전면 재구축",
-    "desc": "PowerBuilder 기반 ERP의 웹 전환. 새로운 도구를 검토하고 공통 개발 기반과 실제 업무 화면을 구현했습니다.",
-    "tags": [
-      "Vue 3",
-      "TypeScript",
-      "RealGrid"
+    id: 'erp-web',
+    type: 'work',
+    period: '2022.09 — 2025.09',
+    title: 'ERP 웹 전환',
+    subtitle: 'PowerBuilder 업무를 Vue 3 기반 웹으로 전환',
+    organization: '(주)엔터인',
+    client: '',
+    teamInfo: '기존 ERP 업무를 분석해 웹 화면·공통 모듈을 개발하고 관련 개발자와 협업',
+    role: '프론트엔드 · 공통 모듈 개발 · 대용량 조회 방식 검증',
+    summary: 'PowerBuilder 기반 ERP 업무를 분석하고 Vue 3 웹 화면, RealGrid 공통 기능, 초기 개발 기반을 구현했습니다.',
+    highlight: '100만 건 규모를 가정한 분할 조회 동작 검증',
+    technologies: ['Vue 3', 'TypeScript', 'JavaScript', 'RealGrid', 'SQL', 'CentOS', 'SVN'],
+    cardVisual: 'grid',
+    scope: '담당 범위: ERP 업무 화면, RealGrid 공통 기능, 초기 개발환경·공통 모듈, 대용량 분할 조회 방식 검증',
+    contributions: [
+      '품목·매출·매입·입출고·BOM·A/S·출하의뢰 업무 화면 개발',
+      'Vue 3·TypeScript 초기 개발환경과 화면 공통 모듈 구성',
+      'RealGrid 행 조작·검색·클립보드·검증 공통 기능 구현',
+      '비동기 청크 조회와 응답 순번 기반 그리드 위치 제어 검증'
     ],
-    "visual": "erp",
-    "role": "프론트엔드 개발 · 선정된 RealGrid 적용 검토 · 공통 개발 환경 구축",
-    "items": [
-      "팀장이 선정한 RealGrid의 ERP 적용 가능성을 검토하고 공식 기술지원 게시판을 통해 지속적으로 기술 문의와 기능 검토를 진행했습니다.",
-      "ERP 업무 화면을 구현하고 후속 개발자를 위한 데모 페이지와 공통 컴포넌트를 제작했습니다."
+    implementations: [
+      {
+        title: 'RealGrid 공통 기능',
+        description: 'Vue 3·TypeScript 화면에서 반복되는 RealGrid 조작을 공통 함수로 분리해 업무 화면마다 같은 방식으로 호출하도록 구성했습니다.',
+        technologies: ['RealGrid', 'Vue 3', 'TypeScript'],
+        details: ['행 추가·삭제·이동 및 행 위치 검색', '클립보드 입력값을 그리드 행에 반영하고 저장 전 데이터 검증', '품목·매출·매입 등 여러 화면에서 공통 호출']
+      },
+      {
+        title: '분할 조회와 수신 위치 제어',
+        description: '조회 범위를 여러 청크로 나눠 비동기로 요청하고, 각 응답에 포함된 데이터 순번을 기준으로 RealGrid의 삽입 위치를 계산했습니다. 먼저 도착한 응답 순서가 아니라 원래 데이터 순서대로 행을 반영했습니다.',
+        technologies: ['JavaScript', 'RealGrid', 'SQL'],
+        details: ['청크별 시작 위치와 응답 순번을 그리드 행 위치로 연결', '응답 완료 순서가 달라져도 기존 데이터 순서를 유지하는지 확인', '100만 건 규모를 가정한 테스트 데이터로 요청·반영 동작 검증']
+      },
+      {
+        title: 'ERP 업무 화면 구현',
+        description: 'PowerBuilder 화면의 입력 항목과 조회·저장 흐름을 분석해 Vue 컴포넌트와 RealGrid 기반 웹 화면으로 옮겼습니다.',
+        technologies: ['Vue 3', 'TypeScript', 'SQL'],
+        details: ['품목·매출·매입·입출고 화면', 'BOM·A/S·출하의뢰 관련 화면', '기존 업무 변경사항을 반영한 화면 개선']
+      }
     ],
-    "result": "ERP 주요 업무 화면, RealGrid 데모 페이지, 프론트엔드 공통 모듈을 제작했습니다.",
-    "design": [
-      [
-        "분할·병렬 조회 구현",
-        "<code>Promise.all()</code>로 분할 요청하고, 응답의 <strong>순서 식별 정보</strong>로 데이터 위치를 맞췄습니다. RealGrid에 점진적으로 표시하되 전체 조회 완료까지 로딩을 유지하고 데이터 조작을 제한했습니다."
-      ],
-      [
-        "공통 컴포넌트 설계",
-        "후속 개발자의 <strong>재사용</strong>을 고려해 기능을 분리했습니다. 기존 ERP와 동일한 화면·기능 요구에 맞춰 초기 설계와 공통화 범위를 조정했습니다."
+    star: {
+      situation: 'ERP 웹 전환 과정에서 업무 화면이 많고 대용량 조회 시 서버와 브라우저에 처리 부담이 집중될 수 있었습니다.',
+      task: '공통 개발 기반을 만들고, 기존 전체 조회 요구를 유지하면서 데이터 처리 부담을 나눌 구조가 필요했습니다.',
+      action: '반복되는 그리드 동작은 공통화하고, 대량 조회는 청크와 데이터 순번을 기준으로 처리하도록 설계했습니다.',
+      result: '공통 조작을 화면마다 중복 구현하지 않고 재사용할 수 있는 개발 기반을 마련했습니다.'
+    },
+    flow: {
+      title: '대용량 데이터 분할 조회 처리 흐름',
+      note: '공개 가능한 범위로 일반화한 처리 흐름 개념도입니다.',
+      type: 'async-chunks',
+      nodes: [
+        { title: '조회 범위 계산', text: '전체 범위를 청크 단위로 나눔' },
+        { title: '청크 A', text: '비동기 요청' },
+        { title: '청크 B', text: '비동기 요청' },
+        { title: '청크 N', text: '비동기 요청' },
+        { title: '응답 + 순번', text: '완료 순서와 위치 기준을 분리' },
+        { title: 'RealGrid', text: '순번에 맞는 행 위치로 반영' }
       ]
-    ],
-    "designLabel": "핵심 문제",
-    "designSummary": "DB에 직접 접근하던 PowerBuilder ERP의 전체 조회 요구를 웹의 3-Tier 구조로 구현하면서, 서버와 브라우저의 처리 부담을 고려해야 했습니다. 고객사에 따라 수만~수백만 건의 데이터가 존재했습니다."
+    },
+    result: '100만 건 규모를 가정한 테스트 데이터로 청크 요청, 응답 순서 변경과 RealGrid 행 위치 반영을 검증했습니다.',
+    links: []
   },
   {
-    "id": "ops",
-    "type": "work",
-    "title": "운영의 공백을 줄이는 자동화",
-    "period": "2021.06 — 2025.09",
-    "subtitle": "클라우드 서버 운영 및 장애 대응 자동화",
-    "desc": "서버 자원을 주기적으로 확인하고, 상황에 따라 Apache reload 또는 문자 알림으로 대응하도록 운영 점검을 자동화했습니다.",
-    "tags": [
-      "Linux",
-      "Apache",
-      "NHN Cloud",
-      "Shell Script"
+    id: 'tas-mobile',
+    type: 'work',
+    period: '2023.11 — 2024.01',
+    title: 'TAS Mobile SQL 개선',
+    subtitle: 'ERP 변경에 맞춘 레거시 조회·업무 로직 정비',
+    organization: '(주)엔터인',
+    client: 'NTK Korea',
+    teamInfo: 'ERP 변경사항을 모바일 서비스에 반영하고 서버 적용·테스트 수행',
+    role: 'PHP·SQL 분석 · 조회 로직 수정 · 서버 반영',
+    summary: '최신 ERP 데이터 처리 방식과 기존 모바일 SQL·PHP 로직의 불일치 구간을 찾아 함께 개선했습니다.',
+    highlight: '2024.01.17 서버 적용 및 테스트 완료',
+    technologies: ['PHP', 'CodeIgniter', 'Oracle', 'SQL', 'JavaScript'],
+    cardVisual: 'legacy',
+    scope: '담당 범위: ERP 변경사항 분석, Oracle SQL·PHP 처리 흐름 점검, 조회 조건과 업무 로직 수정, 서버 적용·테스트',
+    contributions: [
+      'NTK Korea ERP 변경사항과 모바일 조회 기준 비교',
+      '기존 Oracle SQL과 PHP 후속 처리 흐름 추적',
+      'ERP 기준과 어긋난 조회 조건 및 프로모션 로직 수정',
+      '변경 기능 테스트 후 2024.01.17 서버 적용'
     ],
-    "visual": "ops",
-    "role": "클라우드·웹서버 운영 · 장애 대응 자동화",
-    "items": [
-      "클라우드 이전 후 Linux·Apache 웹서버 운영을 담당했습니다.",
-      "cron 기반 자원 점검과 상황별 Apache reload·담당자 문자 알림을 구현했습니다.",
-      "Apache 업그레이드 시 기존 서비스와 신규 버전을 병행 설치·검증한 뒤 운영 환경을 전환했습니다."
+    implementations: [
+      {
+        title: '레거시 SQL 흐름 분석',
+        description: 'CodeIgniter/PHP에서 Oracle SQL에 전달하는 입력값과 분기 조건, 조회 결과를 후속 업무 로직에서 사용하는 지점을 함께 추적했습니다.',
+        technologies: ['PHP', 'Oracle', 'SQL'],
+        details: ['PHP 로직에서 SQL로 전달되는 조회 조건 확인', '기존 Oracle SQL의 필터 조건과 ERP 변경 기준 비교', '조회 결과를 가공하는 PHP 로직까지 오류 발생 경로 연결']
+      },
+      {
+        title: 'ERP 변경사항 반영',
+        description: '분석한 불일치 구간의 Oracle 조회 조건과 PHP 업무 로직을 함께 수정하고, 프로모션 조회 결과가 변경된 ERP 기준과 일치하는지 확인했습니다.',
+        technologies: ['CodeIgniter', 'PHP', 'JavaScript'],
+        details: ['ERP 변경사항과 일치하지 않던 프로모션 조회 조건 수정', '관련 조회 화면과 후속 처리 결과를 개발서버에서 확인', '변경 기능 테스트 후 서버 적용']
+      }
     ],
-    "result": "서버 상태 점검과 일부 대응 과정을 자동화하고 비업무 시간대 이상 상황을 확인할 수 있는 문자 알림 체계를 구축했습니다. 반복적인 수동 점검·대응 작업을 줄이는 것을 목적으로 구현했습니다.",
-    "design": [
-      [
-        "서버 상태 모니터링",
-        "<strong>Linux cron</strong>으로 자원 사용률을 주기적으로 확인했습니다. 사전에 설정한 임계치를 기준으로 이상 상태와 필요한 대응을 판단했습니다."
-      ],
-      [
-        "상황별 대응 자동화",
-        "Apache 관련 문제는 <code>systemctl reload httpd</code>를 자동 실행해 서비스 영향을 최소화하도록 처리했습니다. 직접 확인이 필요한 다른 이상 상황은 <strong>담당자 문자 알림</strong>으로 연결했습니다."
+    star: {
+      situation: 'ERP 변경사항을 모바일에 반영하는 과정에서 기존 SQL·PHP 로직이 최신 데이터 처리 방식과 맞지 않는 구간이 확인됐습니다.',
+      task: '레거시 코드의 데이터 흐름을 파악하고 기존 기능을 유지하면서 조회 오류를 바로잡아야 했습니다.',
+      action: '쿼리만 분리하지 않고 입력 조건부터 PHP 후속 처리까지 연결해 불일치 지점을 찾았습니다.',
+      result: 'ERP 기준과 모바일 조회 흐름의 불일치를 해소했습니다.'
+    },
+    flow: {
+      title: 'ERP 데이터와 모바일 조회 로직의 관계',
+      note: '비공개 내부 구조를 일반화한 데이터 관계 개념도입니다.',
+      type: 'relation',
+      nodes: [
+        { title: 'ERP 변경 기준', text: 'NTK Korea 데이터 처리 기준' },
+        { title: 'PHP 입력·분기', text: '모바일 요청 조건과 업무 로직' },
+        { title: 'Oracle SQL', text: '조회·조인·필터 조건' },
+        { title: '모바일 결과', text: '프로모션 등 조회 화면' }
       ]
-    ],
-    "designLabel": "설계 목적",
-    "designSummary": "서버 이상 상황을 신속하게 파악하고, 반복적인 점검과 일부 복구 작업을 자동화하기 위해 모니터링 기능을 구현했습니다."
+    },
+    result: '2024년 1월 17일 수정 기능의 서버 적용과 프로모션 조회 테스트를 완료했습니다.',
+    links: []
   },
   {
-    "id": "service",
-    "type": "work",
-    "title": "오랫동안 쓰이는 서비스를 관리하다",
-    "period": "2019.03 — 2025.09",
-    "subtitle": "ERP 연계 웹서비스 · 고객사 웹사이트",
-    "desc": "ERP 연계 서비스 4종과 고객사 홈페이지·쇼핑몰의 기능 개선, 오류 수정, 운영을 꾸준히 담당했습니다.",
-    "tags": [
-      "PHP",
-      "CodeIgniter",
-      "JavaScript"
+    id: 'server-monitoring',
+    type: 'work',
+    period: '2021.06 — 2025.09',
+    title: '서버 모니터링 자동화',
+    subtitle: '정기 점검·알림·Apache 운영 대응 자동화',
+    organization: '(주)엔터인',
+    client: '',
+    teamInfo: '웹서비스 운영 담당자로 서버 상태 확인과 장애 대응 흐름 구성',
+    role: '웹서버 운영 · 점검 스크립트 · 장애 알림·대응',
+    summary: 'CentOS·Apache 서버의 자원과 프로세스 상태를 정기 확인하고 이상 시 알림과 범위 내 대응을 수행하도록 구성했습니다.',
+    highlight: '약 30분 주기 상태 점검과 문자 알림 연동',
+    technologies: ['CentOS', 'Linux', 'Apache', 'Shell Script', 'Cron', 'NHN Cloud'],
+    cardVisual: 'terminal',
+    scope: '담당 범위: 웹서버 운영, Shell Script 상태 점검, Cron 등록, 사내 문자 시스템 연동, Apache Graceful 대응',
+    contributions: [
+      '웹서버 자원과 주요 프로세스 상태를 확인하는 Shell Script 구현',
+      'Cron을 이용해 약 30분 주기로 점검 실행',
+      '이상 징후 발견 시 기존 문자 발송 시스템과 연동',
+      'Apache Graceful 처리를 활용한 범위 내 운영 대응 로직 구성'
     ],
-    "visual": "web",
-    "role": "ERP 연계 웹서비스 개발·운영 · 고객사 웹사이트 유지보수",
-    "items": [
-      "EP MOBILE, EPS, EPS2, B2B의 기능 개발·오류 수정 및 유지보수를 수행했습니다.",
-      "각 서비스의 기존 구조와 데이터 흐름을 분석하고 고객사 요구사항에 맞춰 기능을 개선했습니다.",
-      "ERP 쿼리 및 연계 데이터 변경사항을 웹서비스에 반영했습니다.",
-      "웹팀·솔루션팀 간 협업과 고객사 홈페이지·쇼핑몰 운영을 함께 담당했습니다."
+    implementations: [
+      {
+        title: '정기 상태 점검',
+        description: 'Shell Script가 서버 자원과 주요 프로세스의 상태를 확인하고, Cron이 약 30분마다 스크립트를 실행하도록 등록했습니다.',
+        technologies: ['CentOS', 'Shell Script', 'Cron'],
+        details: ['Cron에서 점검 스크립트를 약 30분 주기로 호출', '점검 결과를 정상과 이상 징후로 분기', '이상 분기에서만 알림·대응 단계로 연결']
+      },
+      {
+        title: '알림과 Apache 대응',
+        description: '이상 징후가 감지되면 기존 사내 문자 발송 시스템에 상태를 전달해 담당자에게 알리고, 적용 가능한 경우 Apache Graceful 방식으로 운영 대응을 수행했습니다.',
+        technologies: ['Apache', 'Shell Script', 'NHN Cloud'],
+        details: ['기존 문자 발송 기능과 연동', 'Graceful 처리는 완전 중단 후 재시작과 구분', '자동 처리 범위를 벗어난 상황은 담당자가 확인']
+      }
     ],
-    "result": "단일 기능 개발에 그치지 않고 약 7년의 재직 기간 동안 실제 운영 중인 기업용 웹서비스를 지속해서 개발·유지보수한 경험입니다.",
-    "url": "https://entin.co.kr/service/portfolio/",
-    "notice": "회사 공개 포트폴리오입니다. 사이트별 참여 범위는 다르며, 전체 사이트의 단독 제작을 의미하지 않습니다."
+    star: {
+      situation: '야간이나 주말에는 서버 이상을 즉시 확인하기 어려워 대응이 늦어질 수 있었습니다.',
+      task: '반복 점검을 자동화하고 이상 징후를 담당자가 빠르게 인지할 수 있는 흐름이 필요했습니다.',
+      action: '점검 결과를 정상·이상으로 나누고, 이상일 때만 사내 알림과 적용 가능한 Apache 대응을 실행하도록 구성했습니다.',
+      result: '반복 점검을 자동화하고 담당자가 이상 징후를 인지하는 운영 흐름을 마련했습니다.'
+    },
+    flow: {
+      title: '서버 점검과 상황별 대응 흐름',
+      note: '구체적인 임계값을 제외하고 점검 결과에 따른 대응 관계만 표현한 개념도입니다.',
+      type: 'decision',
+      nodes: [
+        { title: 'Cron 실행', text: '약 30분 주기로 스크립트 호출' },
+        { title: '상태 점검', text: '자원·프로세스 이상 징후 확인' },
+        { title: '정상', text: '다음 주기까지 대기' },
+        { title: '이상 징후', text: '사내 문자 시스템으로 알림' },
+        { title: '운영 대응', text: '적용 가능한 경우 Graceful, 그 외 직접 확인' }
+      ]
+    },
+    result: '약 30분 주기 실행, 문자 알림 연동과 적용 가능한 조건의 Apache Graceful 동작을 운영 범위에서 확인했습니다.',
+    links: []
   },
   {
-    "id": "renewal",
-    "type": "work",
-    "title": "홈페이지와 클라우드를 연결하다",
-    "period": "2021.12 — 2022.04",
-    "subtitle": "회사 공식 홈페이지 전면 리뉴얼",
-    "desc": "퍼블리싱된 화면에 웹 기능을 구현하고, 클라우드에 저장된 ERP 패치 파일의 다운로드를 연동했습니다.",
-    "tags": [
-      "PHP",
-      "JavaScript",
-      "NHN Cloud"
+    id: 'payment-api',
+    type: 'work',
+    period: '2023.04 — 2023.05',
+    title: 'KG이니시스 결제 API 전환',
+    subtitle: '결제·DB 저장 사이의 예외를 로그로 추적',
+    organization: '(주)엔터인',
+    client: '',
+    teamInfo: '기존 웹서비스의 결제 API 전환과 운영 테스트 수행',
+    role: '결제 API 전환 · 오류 분석 · 세션 예외 처리',
+    summary: '외부 결제 이후 내부 DB 저장이 누락될 수 있는 상황을 주요 단계의 서버 로그로 추적하고 세션 만료 예외를 개선했습니다.',
+    highlight: '외부 결제 성공과 내부 저장 사이의 정합성 점검',
+    technologies: ['PHP', 'CodeIgniter', 'JavaScript', 'KG이니시스 API', 'SQL'],
+    cardVisual: 'payment',
+    scope: '담당 범위: 기존 PHP 결제 흐름 분석, KG이니시스 API 전환, 서버 로그 추적, 세션 만료 예외 처리, 결제·취소 테스트',
+    contributions: [
+      'KG이니시스 결제 API 전환과 결제 취소 기능 개선',
+      '결제 관련 함수의 주요 처리 단계에 서버 로그 추가',
+      '외부 결제 결과와 내부 DB 저장 흐름을 로그로 비교',
+      '세션 만료에 따른 예외 처리 후 운영서버 적용·테스트'
     ],
-    "visual": "web",
-    "role": "웹 기능 개발 · 클라우드 파일 연동",
-    "items": [
-      "퍼블리셔가 제작한 화면에 PHP·JavaScript 기반 웹 기능을 구현했습니다.",
-      "NHN Cloud Storage의 ERP 업데이트·패치 파일을 홈페이지에서 다운로드할 수 있도록 PHP 서버와 연동했습니다."
+    implementations: [
+      {
+        title: '결제 처리 단계 관찰',
+        description: '기존 PHP 결제 함수에서 요청 준비, 외부 결제 결과 수신, 내부 저장 직전·직후에 서버 로그를 추가해 흐름이 끊기는 지점을 추적했습니다.',
+        technologies: ['PHP', 'CodeIgniter', 'KG이니시스 API'],
+        details: ['민감한 결제 정보는 제외하고 처리 단계와 식별 가능한 상태만 기록', 'KG이니시스 응답 이후 내부 DB 저장 함수 진입 여부 비교', '결제·취소 함수의 단계별 로그로 오류 발생 구간 특정']
+      },
+      {
+        title: '세션 만료 예외 처리',
+        description: '외부 결제 성공 뒤 세션이 만료되면 내부 DB 저장에 필요한 값이 누락되는 경로를 로그로 확인하고, 해당 예외 처리와 저장 흐름을 보완했습니다.',
+        technologies: ['PHP', 'JavaScript', 'SQL'],
+        details: ['세션 의존 구간과 DB 저장 단계 확인', '예외 상황에서 필요한 처리 보완', '운영서버에서 결제·취소 흐름 테스트']
+      }
     ],
-    "result": "공식 홈페이지 리뉴얼에 참여하고 ERP 패치 파일 다운로드 기능을 구현했습니다.",
-    "url": "https://entin.co.kr/customer/board/down",
-    "linkLabel": "ERP 업데이트 자료실 보기",
-    "notice": "담당했던 클라우드 파일 다운로드 연동 기능이 사용되는 공개 페이지입니다. 게시글 및 ERP 패치 파일 자체의 제작을 의미하지 않습니다.",
-    "design": [
-      [
-        "PHP 서버에서 인증과 파일 전달",
-        "사용자의 다운로드 요청을 받은 <strong>PHP 서버</strong>가 NHN Cloud API 엔드포인트에 인증 정보를 전달해 파일을 조회하고, 받은 파일을 사용자에게 전달했습니다. API 인증 정보는 브라우저에서 직접 사용하지 않고 서버 측에서 처리했습니다."
+    star: {
+      situation: '외부 결제는 진행됐지만 세션 만료 등으로 내부 DB 저장이 누락될 수 있는 상황이 있었습니다.',
+      task: '어느 단계에서 흐름이 끊기는지 확인하고 결제 결과와 내부 데이터의 정합성을 지켜야 했습니다.',
+      action: '외부 응답과 내부 저장 사이에 관찰 지점을 두고, 세션 의존 구간에서 흐름이 끊기는 조건을 확인했습니다.',
+      result: '로그를 통해 외부 결제 이후 내부 저장이 끊기는 조건을 특정했습니다.'
+    },
+    flow: {
+      title: '결제 요청부터 내부 저장까지',
+      note: '민감한 결제 정보와 실제 로그는 제외하고 세션 만료가 영향을 주던 구간만 표시했습니다.',
+      type: 'risk',
+      nodes: [
+        { title: '사용자 결제 요청', text: '기존 PHP 결제 함수 진입' },
+        { title: 'KG이니시스 API', text: '결제 결과 수신' },
+        { title: '내부 결과 처리', text: '단계별 서버 로그 기록' },
+        { title: '세션 만료 구간', text: 'DB 저장값 누락 원인 추적' },
+        { title: 'DB 저장·검증', text: '예외 보완 후 결제·취소 테스트' }
       ]
-    ],
-    "designLabel": "설계 목적",
-    "designSummary": "NHN Cloud Storage에 저장된 ERP 업데이트·패치 파일을 홈페이지에서 다운로드할 수 있도록 연동했습니다."
+    },
+    result: '세션 만료 예외 처리 수정 후 운영서버에서 결제·취소 흐름 테스트를 완료했습니다.',
+    links: []
   },
   {
-    "id": "weather",
-    "type": "team",
-    "title": "날씨 데이터를 생활의 추천으로",
-    "period": "2026.10 · 팀 프로젝트",
-    "subtitle": "Weather Mate",
-    "desc": "기상청 예보와 AI 예측 데이터를 웹서비스에 연결하고, 날씨에 맞는 복장 추천을 제공하는 프로젝트입니다.",
-    "tags": [
-      "Spring Boot",
-      "REST API",
-      "MariaDB",
-      "Docker"
+    id: 'weather-mate',
+    type: 'team',
+    period: '2026.10',
+    title: 'Weather Mate',
+    subtitle: '예보 수집과 서비스 조회를 분리한 날씨·복장 추천',
+    organization: '교육 팀 프로젝트',
+    client: '',
+    teamInfo: '팀 전체 서비스 중 기상청 데이터 수집, 백엔드 API, 스케줄러, 복장 추천 담당',
+    role: '백엔드 · 기상청 API · 스케줄러 · 추천 로직',
+    summary: '기상청 예보를 발표 시각에 맞춰 수집·저장하고, 사용자 요청에는 DB 데이터를 제공하도록 수집과 조회를 분리했습니다.',
+    highlight: '서울 25개 구 예보 수집·중복 방지·오래된 데이터 정리',
+    technologies: ['Java', 'Spring Boot', 'JPA', 'MariaDB', 'Docker', 'REST API'],
+    cardVisual: 'image',
+    cardImage: 'assets/weather.png',
+    scope: '담당 범위: 기상청 API 수집·저장, 스케줄러, 날씨·복장 추천 API, 외부 AI 예측 결과 연동',
+    contributions: [
+      '기상청 발표 이후 1일 8회 단기예보 수집과 DB 저장',
+      '서울 25개 구 대표 격자 기반 날씨 조회 API 구현',
+      '예보 중복 저장 방지와 오래된 데이터 정리 기능 구현',
+      '기상 조건·계절 가중치를 반영한 복장 추천과 외부 AI 예측 결과 연동'
     ],
-    "visual": "weather",
-    "role": "백엔드 담당 · 기상청 API 수집 · AI 예측 데이터 연동 · 복장 추천",
-    "items": [
-      "서울 25개 구 대표 격자의 단기예보 수집·저장과 날짜별·시간별 조회 API를 구현했습니다.",
-      "기상 조건과 계절을 반영한 규칙 기반 복장·소품 추천을 구현했습니다.",
-      "별도로 개발된 AI 예측 모델 API를 호출하고 결과를 웹서비스에 제공하는 백엔드 연동을 담당했습니다."
+    implementations: [
+      {
+        title: '수집과 조회 분리',
+        description: '<code>weather.collection.enabled</code>가 활성화된 경우 스케줄러가 02:20부터 3시간 간격으로 하루 8회 서울 25개 구의 대표 격자를 수집하고, 사용자 조회 API는 외부 호출 없이 DB만 읽도록 분리했습니다.',
+        technologies: ['Spring Boot', 'REST API', 'MariaDB'],
+        details: ['공유 격자는 대표 구만 호출해 중복 API 요청 생략', '외부 응답 대기와 DB 트랜잭션을 분리한 뒤 검증 데이터만 저장', '사용자 요청은 지역·날짜에 해당하는 DB 예보를 시간순 조회']
+      },
+      {
+        title: '예보 데이터 관리',
+        description: '<code>grid_x + grid_y + forecast_at</code> 유일 제약을 두고 최신 발표 데이터만 <code>INSERT</code> 또는 <code>UPDATE</code>했습니다. 핵심 항목이 불완전한 새 응답은 기존 정상 예보를 덮지 않도록 건너뛰었습니다.',
+        technologies: ['JPA', 'MariaDB', 'Spring Boot'],
+        details: ['JPA 조회로 기존 행을 찾아 신규·갱신·미변경을 구분', '매일 00:05에 당일 이전 예보 행 정리', '발표시각이 섞이거나 응답 페이지가 불완전하면 저장 중단']
+      },
+      {
+        title: '복장 추천과 외부 예측 연동',
+        description: '기온·습도·바람·강수 조건으로 복장 세트를 점수화하고, 봄·가을의 겹치는 기온대에는 달력 계절을 보조 가중치로 사용했습니다. Spring Boot는 별도 AI 서버를 호출해 모델명·날짜·예측시각·기온만 서비스 응답으로 중계했습니다.',
+        technologies: ['Java', 'REST API'],
+        details: ['강수·바람에 따라 신발·겉옷·소품 후보 조정', '저장된 시간별 예보를 추천 요청으로 변환', 'AI 모델 개발이 아닌 별도 예측 서버 호출과 응답 검증·중계 담당']
+      }
     ],
-    "result": "날씨 조회·복장 추천 API와 예보 자동 수집·지난 데이터 정리 기능을 구성했습니다. 외부 데이터 수집과 사용자 조회를 분리해 중복 외부 요청과 API 호출 부담을 줄이고자 했습니다.",
-    "url": "https://github.com/kkhjo2176/weather-life",
-    "notice": "저장소 공개 상태에 따라 접근이 제한될 수 있습니다.",
-    "design": [
-      [
-        "예보 데이터 수집 구조",
-        "<code>@Scheduled</code>로 예보 발표 <strong>20분 후</strong> 서울 <strong>25개 구 대표 격자</strong>의 데이터를 수집했습니다. DB 조회로 중복 외부 요청을 방지하고, 지난 예보를 정리하도록 구현했습니다."
-      ],
-      [
-        "규칙 기반 복장 추천 개선",
-        "기온·습도·강수·풍속을 기본 조건으로 활용했습니다. 가을에도 봄 복장이 추천되던 문제를 개선하기 위해, 유사한 날씨 조건에서 <strong>계절 가중치</strong>를 함께 반영했습니다."
+    star: {
+      situation: '사용자 요청마다 기상청 API를 호출하면 이용자 수에 따라 외부 요청도 함께 증가하는 구조가 됩니다.',
+      task: '예보 수집 시점과 사용자 조회를 분리하고 지역별 데이터를 안정적으로 제공해야 했습니다.',
+      action: '수집 스케줄과 사용자 조회 경로를 분리하고, 유일 키·최신 발표시각·응답 완전성을 저장 판단 기준으로 정했습니다.',
+      result: '사용자 요청이 기상청 API 응답에 직접 의존하지 않는 조회 구조를 구현했습니다.'
+    },
+    flow: {
+      title: '예보 데이터 수집과 서비스 조회 구조',
+      note: '외부 예보 수집 경로와 사용자 조회 경로를 분리한 실제 백엔드 구조입니다.',
+      type: 'dual-lane',
+      lanes: [
+        { label: 'COLLECT', nodes: [
+          { title: '기상청 API', text: '발표 이후 1일 8회' },
+          { title: 'Scheduler', text: '25개 구 대표 격자 수집' },
+          { title: 'MariaDB', text: '검증·중복 제어·갱신' }
+        ] },
+        { label: 'SERVE', nodes: [
+          { title: '사용자 요청', text: '지역·날짜·시간 조건' },
+          { title: 'Spring Boot API', text: 'DB 예보 조회·추천 변환' },
+          { title: '날씨·복장 응답', text: '저장 데이터 기반 제공' }
+        ] }
       ]
+    },
+    result: 'GitHub 저장소에서 스케줄 수집, 예보 중복 제어, DB 조회 API와 규칙 기반 복장 추천 코드를 확인할 수 있습니다.',
+    images: [
+      { src: 'assets/weather.png', title: '날씨 비교 화면', caption: '담당 기능: 기상청·외부 예측 데이터 연동 및 백엔드 API' },
+      { src: 'assets/outfit.png', title: '생활 추천 화면', caption: '담당 기능: 날씨·복장 추천 정보 제공 백엔드' }
     ],
-    "designLabel": "설계 목적",
-    "designSummary": "사용자 증가에 따른 기상청 API 호출 부담을 고려해, 예보 데이터 수집과 사용자 조회를 분리했습니다."
+    links: [{ label: 'GitHub 저장소', url: 'https://github.com/kkhjo2176/weather-mate' }]
   },
   {
-    "id": "groupware",
-    "type": "team",
-    "title": "업무의 흐름을 연결하는 그룹웨어",
-    "period": "2026.07 — 2026.08 · 팀 프로젝트",
-    "subtitle": "Company Groupware",
-    "desc": "결재 상신부터 승인·반려까지 업무 흐름을 구현하고, 댓글과 첨부파일 등 협업 기능을 개발했습니다.",
-    "tags": [
-      "Spring Boot",
-      "JPA",
-      "Thymeleaf",
-      "MariaDB"
+    id: 'company-talk',
+    type: 'team',
+    period: '2026.07 — 2026.08',
+    title: 'Company Talk',
+    subtitle: '결재 흐름과 협업 기능을 구현한 그룹웨어',
+    organization: '교육 팀 프로젝트',
+    client: '',
+    teamInfo: '팀 전체 그룹웨어 중 전자결재·결재라인·댓글·파일·권한 예외 담당',
+    role: '전자결재 · 결재라인 · 댓글 · 파일 · 보안 예외',
+    summary: '결재자별 승인·반려 흐름과 계층형 댓글, 사인 이미지, 첨부파일, 접근 권한 예외를 구현했습니다.',
+    highlight: '결재라인 상태 흐름과 계층형 댓글 삭제 제약 구현',
+    technologies: ['Java', 'Spring Boot', 'Spring Security', 'JPA', 'Thymeleaf', 'MariaDB', 'Docker'],
+    cardVisual: 'image',
+    cardImage: 'assets/approval.png',
+    scope: '담당 범위: 전자결재·결재라인, 승인·반려 상태, 댓글 관계, 사인·첨부파일, Spring Security 접근 권한 예외',
+    contributions: [
+      '결재라인에 따른 결재자별 승인·반려 업무 흐름 구현',
+      '계층형 댓글·대댓글과 하위 댓글 존재 시 삭제 제한 구현',
+      '결재 사인 이미지 등록·표시와 첨부파일 업로드·다운로드',
+      'Spring Security 접근 권한 오류와 예외 상황 개선'
     ],
-    "visual": "group",
-    "role": "전자결재 · 결재라인 · 댓글/대댓글 · 사인 이미지 · 첨부파일",
-    "items": [
-      "전자결재 임시저장·상신·승인·반려와 결재라인 관리를 구현했습니다.",
-      "댓글·대댓글, 사인 이미지 등록·표시, 첨부파일 다중 업로드·다운로드를 담당했습니다.",
-      "Spring Security 접근 권한 관련 예외 처리를 수행했습니다."
+    implementations: [
+      {
+        title: '전자결재와 결재라인',
+        description: '상신 시 문서를 <code>IN_PROGRESS</code>로 두고 선택한 개인 결재라인을 순서대로 복사해 첫 결재자는 <code>PENDING</code>, 이후 결재자는 <code>WAITING</code> 상태로 저장했습니다.',
+        technologies: ['Spring Boot', 'JPA', 'Thymeleaf'],
+        details: ['현재 결재자 승인 시 다음 <code>WAITING</code> 결재자를 <code>PENDING</code>으로 전환', '마지막 승인 시 문서를 <code>APPROVED</code>, 반려 시 즉시 <code>REJECTED</code> 처리', '작성자 또는 결재자만 조회하며 대기 결재자는 자기 순서 전 접근 제한']
+      },
+      {
+        title: '댓글·대댓글 관계 처리',
+        description: '댓글 엔티티가 부모 댓글을 참조하도록 구성하고, 답글 등록 시 부모 ID를 연결했습니다. 하위 댓글이 남아 있으면 상위 댓글 삭제 요청을 <code>409 Conflict</code>로 차단했습니다.',
+        technologies: ['Java', 'JPA', 'MariaDB'],
+        details: ['부모 댓글 ID가 있으면 자기 참조 관계로 대댓글 저장', '게시글별 작성시각·댓글 ID 순으로 조회', '댓글 수정은 <code>204 No Content</code>, <code>existsByParentComment_ComId</code>가 참이면 삭제 요청은 <code>409 Conflict</code>']
+      },
+      {
+        title: '파일·사인·접근 권한',
+        description: '결재 문서 첨부파일과 로그인 사용자의 사인 이미지를 각각 별도 저장 경로로 관리하고, 사용자·문서 상태에 따라 변경 가능 범위를 제한했습니다.',
+        technologies: ['Spring Security', 'Spring Boot', 'Thymeleaf'],
+        details: ['첨부파일 원본명과 UUID 저장명을 분리하고 정규화 경로가 업로드 폴더 안인지 검증', '작성자만 첨부 가능하며 결재 시작·종료 후 추가·삭제 차단', '사인 이미지는 로그인 사용자 기준으로 등록·교체하며 이미지 형식과 5MB 제한 검증', 'Spring Security로 일반 화면은 인증, 관리자 경로는 <code>ADMIN</code> 역할 요구']
+      }
     ],
-    "result": "여러 협업 기능을 하나의 Spring Boot 애플리케이션에 통합했습니다. 아래 저장소는 팀 프로젝트를 포크한 저장소입니다.",
-    "url": "https://github.com/kkhjo2176/company-groupware",
-    "design": [
-      [
-        "전자결재 업무 로직",
-        "임시저장·상신·승인·반려 등 <strong>업무 상태에 따른 처리</strong>를 구현했습니다. 결재라인으로 결재자와 결재 순서를 관리했습니다."
-      ],
-      [
-        "댓글·대댓글 관계 처리",
-        "댓글의 계층 구조를 구현하고, <strong>하위 댓글이 있으면 상위 댓글 삭제를 제한</strong>했습니다. 데이터 관계를 확인한 뒤 삭제 여부를 판단하도록 처리했습니다."
+    star: {
+      situation: '전자결재는 결재 순서와 문서 상태, 사용자 권한이 함께 맞아야 하고 댓글은 계층 관계를 보존해야 했습니다.',
+      task: '업무 규칙에 맞는 결재 흐름과 안전한 협업 기능을 구현해야 했습니다.',
+      action: '결재 순서를 명시적인 상태로 관리하고, 댓글·파일 작업에는 관계와 사용자 권한을 먼저 검증하도록 구성했습니다.',
+      result: '현재 결재자만 처리하고 승인·반려에 따라 다음 상태를 일관되게 전환하도록 구현했습니다.'
+    },
+    flow: {
+      title: '결재라인 기반 전자결재 흐름',
+      note: '실제 코드의 PENDING·WAITING·APPROVED·REJECTED 전환을 단순화한 상태 흐름도입니다.',
+      type: 'state',
+      nodes: [
+        { title: '문서 작성·상신', text: '결재라인과 문서 정보 구성' },
+        { title: 'PENDING', text: '현재 순서의 결재자' },
+        { title: 'WAITING → PENDING', text: '승인 시 다음 결재자 활성화' },
+        { title: 'APPROVED', text: '마지막 결재자 승인' },
+        { title: 'REJECTED', text: '현재 결재자가 반려' }
       ]
+    },
+    result: 'GitHub 저장소에서 결재 상태 전환, 댓글 삭제 제약, 첨부파일·사인 이미지와 Spring Security 설정을 확인할 수 있습니다.',
+    images: [
+      { src: 'assets/approval.png', title: '전자결재 문서 상세', caption: '담당 기능: 결재 상태, 첨부파일, 승인·반려 처리' },
+      { src: 'assets/approval-route.png', title: '결재라인 관리', caption: '담당 기능: 결재라인과 결재자 관리' },
+      { src: 'assets/signature.png', title: '사인 이미지 관리', caption: '담당 기능: 사인 등록과 결재 화면 표시' },
+      { src: 'assets/comments.png', title: '댓글·대댓글 테스트 화면', caption: '담당 기능: 답글이 있는 댓글의 삭제 제한' }
     ],
-    "designLabel": "핵심 구현",
-    "designSummary": "전자결재의 상태별 업무 처리와 결재라인 관리, 댓글·대댓글의 계층 구조를 구현했습니다."
+    links: [{ label: 'GitHub 저장소', url: 'https://github.com/kkhjo2176/company-talk' }]
   }
 ];
-const projectScreens = {"service": [{"src": "assets/etrs.png", "title": "티알에스 · EPS", "caption": "ERP 연계 웹서비스 기능 개발·오류 수정·유지보수 참여", "url": "https://www.etrs.co.kr"}, {"src": "assets/erae.png", "title": "이래툴스 · EPS", "caption": "ERP 연계 기업용 쇼핑몰 개발·유지보수 참여", "url": "https://shop.eraetools.co.kr"}, {"src": "assets/skfa.png", "title": "세광에프에이시스템 · EPS2", "caption": "ERP 연계 웹서비스 개발·유지보수 참여", "url": "https://www.skfa.co.kr"}, {"src": "assets/ep-mobile.png", "title": "대구텍 대리점 시스템 · EP MOBILE", "caption": "EP MOBILE 적용 서비스의 로그인 화면 · 내부 업무 화면은 포함하지 않았습니다.", "url": "https://tkm.entin.co.kr"}], "renewal": [{"src": "assets/entin.png", "title": "엔터인 공식 홈페이지", "caption": "공식 홈페이지 현재 화면 · 담당: PHP·JavaScript 웹 기능 및 클라우드 파일 다운로드 연동", "url": "https://entin.co.kr"}], "weather": [{"src": "assets/weather.png", "title": "Weather Mate · 날씨 비교", "caption": "팀 프로젝트 발표 화면 · 담당: 기상청·AI 예측 데이터 연동 및 백엔드 API"}, {"src": "assets/outfit.png", "title": "Weather Mate · 생활 추천", "caption": "팀 프로젝트 발표 화면 · 날씨·추천 정보 제공 백엔드 담당. 화면 디자인과 캐릭터 제작은 담당 범위에 포함하지 않습니다."}], "groupware": [{"src": "assets/approval.png", "title": "전자결재 · 문서 상세와 승인/반려", "caption": "담당 기능: 문서 조회, 결재 진행 상태, 첨부파일 및 승인·반려 처리"}, {"src": "assets/approval-route.png", "title": "결재라인 관리", "caption": "담당 기능: 결재라인 및 결재자 관리"}, {"src": "assets/signature.png", "title": "사인 이미지 관리", "caption": "담당 기능: 사인 등록 및 결재 화면 표시"}, {"src": "assets/comments.png", "title": "댓글·대댓글 삭제 제약", "caption": "담당 기능: 답글이 있는 댓글의 삭제 제한 · 개발 당시 테스트 화면"}]};
-projects.forEach(p => {p.screens=projectScreens[p.id]||[];});
-projects.find(p=>p.id==='weather').subtitle='Weather Mate';
-const implementationDiagrams={"erp": "<div class=\"evolution\"><span>검색·스크롤 추가 조회</span><span>조회 건수 선택·페이징</span><span>분할 순차 요청</span><span>Promise.all() 병렬 요청</span></div><div class=\"flow-node\"><b>데이터 분할</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>분할 요청 병렬 실행</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>응답 위치 정렬 · RealGrid 점진 표시</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>전체 조회 완료</b></div>", "ops": "<div class=\"flow-node\"><b>Linux cron</b><small>주기적 자원 사용률 확인</small></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>임계치 초과 여부</b></div><div class=\"flow-branches\"><div><div class=\"flow-node\"><b>미초과</b><small>다음 주기 점검</small></div></div><div><div class=\"flow-node\"><b>초과 · 상황별 대응</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-branches\"><div><div class=\"flow-node\"><b>Apache 관련 문제</b><small>systemctl reload httpd</small></div></div><div><div class=\"flow-node\"><b>직접 확인 필요</b><small>담당자 문자 알림</small></div></div></div></div></div>", "weather": "<div class=\"weather-sources\"><div><div class=\"flow-node\"><b>기상청 단기예보 API</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>Spring Scheduler</b><small>@Scheduled</small></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>MariaDB</b><small>예보 저장·조회</small></div></div><div class=\"ai-source\"><div class=\"flow-node\"><b>외부 AI 예측 API</b><small>별도 모델의 결과 연동</small></div></div></div><div class=\"source-join\"><span>예보 데이터 ↓</span><span>AI 예측 결과 ↓</span></div><div class=\"flow-node\"><b>Spring Boot REST API</b><small>날씨·AI 예측 결과 · 규칙 기반 복장 추천</small></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>사용자 화면</b></div>", "groupware": "<div class=\"flow-node\"><b>문서 작성</b></div><div class=\"flow-branches\"><div><div class=\"flow-node\"><b>임시저장</b></div></div><div><div class=\"flow-node\"><b>상신</b></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-node\"><b>결재 진행</b><small>결재라인 기반</small></div><div class=\"flow-arrow\" aria-hidden=\"true\">↓</div><div class=\"flow-branches\"><div><div class=\"flow-node\"><b>승인</b></div></div><div><div class=\"flow-node\"><b>반려</b></div></div></div></div></div>"};
-const diagramTitles={"erp":"대량 조회 방식의 변화와 최종 처리 흐름","ops":"서버 자원 점검과 상황별 대응","weather":"외부 데이터 수집과 사용자 조회 구조","groupware":"전자결재 업무 처리 흐름"};
-function implementationSection(p){
-  if(!p.design)return '';
-  const diagram=implementationDiagrams[p.id];
-  return '<section class="implementation"><h3>핵심 설계 및 구현 과정</h3>'+
-    '<div class="design-summary"><span>'+p.designLabel+'</span><p>'+p.designSummary+'</p></div>'+
-    (diagram?'<figure class="implementation-flow"><figcaption>'+diagramTitles[p.id]+'</figcaption>'+diagram+'</figure>':'')+
-    '<div class="design-details'+(p.design.length===1?' single':'')+'">'+p.design.map(([title,body],i)=>'<article><span class="design-index">0'+(i+1)+'</span><h4>'+title+'</h4><p>'+body+'</p></article>').join('')+'</div></section>';
+
+const techGroups = [
+  {
+    name: 'Frontend',
+    technologies: [
+      { name: 'HTML', levels: ['professional', 'project'], usage: '기업용 웹서비스 화면과 교육 팀 프로젝트의 마크업 구성.', projects: ['erp-web', 'weather-mate', 'company-talk'] },
+      { name: 'CSS', levels: ['professional', 'project'], usage: '기업용 웹서비스 UI 유지보수와 반응형 프로젝트 화면 구성.', projects: ['erp-web', 'weather-mate', 'company-talk'] },
+      { name: 'JavaScript', levels: ['professional', 'project'], usage: 'ERP 웹 화면, 결제 처리, 바코드 연동과 기업용 서비스의 사용자 동작·예외 처리.', projects: ['erp-web', 'tas-mobile', 'payment-api'] },
+      { name: 'TypeScript', levels: ['professional'], usage: 'Vue 3 기반 ERP 웹 화면과 공통 모듈 개발.', projects: ['erp-web'] },
+      { name: 'Vue 3', levels: ['professional'], usage: 'PowerBuilder ERP의 웹 전환 화면과 공통 개발 기반 구현.', projects: ['erp-web'] },
+      { name: 'RealGrid', levels: ['professional'], usage: 'ERP 업무 화면의 행 조작·검색·검증·클립보드 공통 기능과 대용량 데이터 표시.', projects: ['erp-web'] },
+      { name: 'Thymeleaf', levels: ['project'], usage: 'Company Talk의 전자결재·협업 화면 구성.', projects: ['company-talk'] }
+    ]
+  },
+  {
+    name: 'Backend',
+    technologies: [
+      { name: 'PHP', levels: ['professional'], usage: '2018.11~2025.10 다수 ERP 연계 웹서비스의 기능 개발·유지보수, 결제 API와 클라우드 파일 중계에 사용.', projects: ['tas-mobile', 'payment-api'], experience: 'EPS 계열 2종 · EPS2 쇼핑몰 · ERP Mobile · B2B · B2C' },
+      { name: 'CodeIgniter', levels: ['professional'], usage: '장기간 기업용 서비스의 조회·업무 로직, 고객사별 기능, 운영 오류를 분석·개선.', projects: ['tas-mobile', 'payment-api'], experience: '상품 · 주문 · 배송 · 재고 · 거래 기능 개발·운영' },
+      { name: 'Java', levels: ['project', 'learning'], usage: 'Spring Boot 팀 프로젝트의 날씨·추천·전자결재 기능 구현.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'Spring', levels: ['project', 'learning'], usage: 'Spring Boot 기반 팀 프로젝트에서 웹 요청·서비스 구조 학습과 구현.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'Spring Boot', levels: ['project', 'learning'], usage: 'Weather Mate 백엔드 API와 Company Talk 그룹웨어 기능에 사용했으며 현재도 학습 중.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'JPA', levels: ['project'], usage: '예보 데이터 관리와 전자결재·댓글 관계 처리.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'Spring Security', levels: ['project'], usage: 'Company Talk의 접근 권한 오류와 예외 상황 개선.', projects: ['company-talk'] }
+    ]
+  },
+  {
+    name: 'Database',
+    technologies: [
+      { name: 'Oracle', levels: ['professional'], usage: 'ERP 연계 모바일 서비스의 장문 SQL, 조회 조건과 데이터 처리 흐름 분석·수정.', projects: ['tas-mobile'] },
+      { name: 'MySQL', levels: ['professional'], usage: 'PHP·CodeIgniter 기반 기업용 웹서비스의 상품·주문·거래 데이터 조회와 운영.', projects: [], experience: '대표 프로젝트 외 ERP 연계 서비스 유지보수' },
+      { name: 'MariaDB', levels: ['project'], usage: '날씨 예보 저장·정리와 전자결재·댓글 데이터 관리.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'SQL', levels: ['professional', 'project'], usage: 'ERP 변경 분석, 결제 데이터 확인, 예보·결재 데이터 조회와 정합성 점검.', projects: ['erp-web', 'tas-mobile', 'payment-api', 'weather-mate', 'company-talk'] }
+    ]
+  },
+  {
+    name: 'Server & Cloud',
+    technologies: [
+      { name: 'CentOS', levels: ['professional'], usage: 'ERP 웹 개발환경과 기업 웹서비스 서버 운영·상태 점검 자동화.', projects: ['erp-web', 'server-monitoring'] },
+      { name: 'Linux', levels: ['professional'], usage: '웹서버 배포·운영, 로그 확인과 장애 대응.', projects: ['server-monitoring'] },
+      { name: 'Apache', levels: ['professional'], usage: '웹서버 운영과 Graceful 방식의 범위 내 대응.', projects: ['server-monitoring'] },
+      { name: 'NHN Cloud', levels: ['professional'], usage: '클라우드 서버 운영과 Object Storage 파일 다운로드 중계.', projects: ['server-monitoring'] },
+      { name: 'Shell Script', levels: ['professional'], usage: '서버 자원·프로세스 상태 점검과 알림·대응 로직.', projects: ['server-monitoring'] },
+      { name: 'Cron', levels: ['professional'], usage: '약 30분 주기의 서버 상태 점검 실행.', projects: ['server-monitoring'] },
+      { name: 'Docker', levels: ['project'], usage: 'Spring Boot 교육 팀 프로젝트의 개발·실행 환경 구성.', projects: ['weather-mate', 'company-talk'] }
+    ]
+  },
+  {
+    name: 'Tools & Collaboration',
+    technologies: [
+      { name: 'Git', levels: ['project'], usage: '교육 팀 프로젝트의 버전 관리와 협업.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'GitHub', levels: ['project'], usage: 'Weather Mate와 Company Talk 저장소 관리·공개.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'SVN', levels: ['professional'], usage: 'ERP 웹 전환을 포함한 실무 소스 버전 관리.', projects: ['erp-web'] },
+      { name: 'IntelliJ IDEA', levels: ['project', 'learning'], usage: 'Java·Spring Boot 개발과 디버깅.', projects: ['weather-mate', 'company-talk'] },
+      { name: 'Eclipse', levels: ['professional'], usage: '이전 회사에서 기업용 웹서비스 개발·유지보수에 지속적으로 사용한 익숙한 개발 환경.', projects: [], experience: '약 7년간 PHP·JavaScript 기반 실무 개발에서 사용' },
+      { name: 'VS Code', levels: ['professional', 'project'], usage: '웹 프론트엔드와 스크립트·프로젝트 코드 편집.', projects: ['erp-web', 'weather-mate'] },
+      { name: 'TOAD', levels: ['professional'], usage: 'Oracle SQL 조회·분석과 데이터 확인.', projects: ['tas-mobile'] }
+    ]
+  }
+];
+
+const additionalExperiences = [
+  {
+    title: 'NHN Cloud Object Storage API 중계',
+    description: 'PHP 서버에서 NHN Cloud API를 호출하고 받은 파일을 기존 웹서비스 사용자에게 전달하는 중계 기능을 구현했습니다.',
+    technologies: ['PHP', 'REST API', 'NHN Cloud']
+  },
+  {
+    title: 'Android 바코드 스캐너 연동',
+    description: '고객사가 제작한 Android 앱에 바코드 스캔 네이티브 기능을 추가하고 결과를 웹페이지와 ERP 조회 기능에 전달했습니다.',
+    technologies: ['Android', 'JavaScript', 'PHP']
+  },
+  {
+    title: '고객사 현장 오류 분석',
+    description: '세광FA EPS2 쇼핑몰에서만 발생하던 에디터 이미지 입력 문제를 현장에서 재현했습니다. 붙여넣기 데이터의 특성을 확인하고 유효하지 않은 값이 DB INSERT/UPDATE로 넘어가지 않도록 검증했습니다.',
+    technologies: ['PHP', 'CodeIgniter', 'JavaScript', 'SQL']
+  },
+  {
+    title: 'B2B 거래내역서 개선',
+    description: '거래내역의 합계·잔액·Excel 출력 오류를 수정하고, 건별/상세 보기 전환 시 같은 데이터를 반복 조회하지 않도록 조회 흐름을 개선했습니다.',
+    technologies: ['PHP', 'CodeIgniter', 'SQL', 'Excel']
+  },
+  {
+    title: '웹 호환성·기능 전환',
+    description: 'Flash 기반 광고·메뉴와 기존 업로드 모듈을 웹 환경에 맞게 개선하고 여러 고객사 서비스에 적용했습니다.',
+    technologies: ['HTML', 'CSS', 'JavaScript', 'PHP']
+  }
+];
+
+const enterpriseServiceExperience = {
+  period: '2018.11 — 2025.10',
+  title: 'ERP 연계 웹서비스 개발 및 유지보수',
+  services: ['EPS 계열 2종', 'EPS2 쇼핑몰', 'ERP Mobile', 'B2B 웹서비스', 'B2C 웹서비스'],
+  responsibilities: [
+    'PHP·CodeIgniter 기반 기능 개발',
+    'ERP 변경에 따른 데이터 조회·처리 로직 수정',
+    '상품·주문·배송·재고·거래 기능 개선',
+    '고객사별 요구사항과 운영 오류 대응',
+    '개발서버 테스트 후 운영환경 반영'
+  ]
+};
+
+const levelLabels = {
+  professional: 'Professional',
+  project: 'Project',
+  learning: 'Learning'
+};
+
+const grid = document.querySelector('#project-grid');
+const dialog = document.querySelector('#project-dialog');
+const dialogContent = document.querySelector('#dialog-content');
+let dialogOpener = null;
+
+function projectTypeLabel(type) {
+  return type === 'work' ? 'PROFESSIONAL' : 'TEAM PROJECT';
 }
-function screenshotGallery(p){if(!p.screens.length)return '';return '<section class="screen-gallery"><h3>실제 서비스 화면</h3><p class="gallery-hint">이미지를 선택하면 큰 화면으로 볼 수 있습니다.</p>'+p.screens.map(x=>'<figure><a class="screen-link" href="'+x.src+'" target="_blank" rel="noopener" aria-label="'+x.title+' 이미지 크게 보기"><img src="'+x.src+'" alt="'+x.title+'" loading="lazy"><span>크게 보기 ↗</span></a><figcaption><strong>'+x.title+'</strong><p>'+x.caption+'</p>'+(x.url?'<a class="text-link" href="'+x.url+'" target="_blank" rel="noopener">사이트 방문 ↗</a>':'')+'</figcaption></figure>').join('')+'</section>';}
-function visual(p){if(p.screens.length){const x=p.screens[0];return '<div class="project-visual real-visual real-'+p.id+'"><img src="'+x.src+'" alt="'+x.title+'" loading="lazy"><span class="screen-badge">'+(p.type==='team'?'팀 프로젝트 화면':'서비스 화면')+'</span></div>';}let body='';if(p.visual==='ops')body='<div class="terminal"><span>$ service-monitor --watch</span><br><b>✓</b> 상태 확인 → 이상 감지<br><b>✓</b> Apache reload / 문자 알림<br><b>✓</b> 상황별 대응<br><span style="opacity:.5">cron → check → respond</span></div>';else{let inner=p.visual==='erp'?'<div class="mini-grid">'+Array.from({length:28},(_,i)=>'<span>'+(['품목코드','품목명','규격','수량'][i]||'—')+'</span>').join('')+'</div>':p.visual==='weather'?'<div class="weather-panel"><div><small>WEATHER → OUTFIT</small><strong>Weather<br>Life.</strong></div><div class="sun"></div></div>':p.visual==='group'?'<div class="approval"><span>임시저장</span><span>상신 →</span><span>검토 →</span><span>승인</span></div><div class="mini-grid">'+('<span></span>'.repeat(8))+'</div>':'<div class="web-lines"><span>WEB<br>웹서비스</span><span>ERP<br>업무 데이터</span><span>CLOUD<br>파일 연동</span></div>';body='<div class="mini-window"><div class="mini-top"><b>'+({erp:'ERP / 품목 관리',weather:'WEATHER LIFE',group:'GROUPWARE / 전자결재',web:'WEB SERVICES'}[p.visual])+'</b><span>···</span></div>'+inner+'</div>';}return '<div class="project-visual visual-'+p.visual+'" aria-hidden="true"><div class="visual-caption"><span>'+p.tags[0].toUpperCase()+' / '+(p.type==='team'?'TEAM PROJECT':'PROFESSIONAL WORK')+'</span><span>개념도</span></div>'+body+'</div>';}
-const grid=document.querySelector('#project-grid');grid.innerHTML=projects.map((p,i)=>'<article class="project-card" data-type="'+p.type+'">'+visual(p)+'<div class="project-meta"><b>'+(p.type==='work'?'실무 경험':'팀 프로젝트')+' / 0'+(i+1)+'</b><span>'+p.period+'</span></div><h3>'+p.title+'</h3><p>'+p.desc+'</p><div class="project-tags">'+p.tags.map(t=>'<span>'+t+'</span>').join('')+'</div><button class="detail-button" data-project="'+p.id+'" aria-haspopup="dialog">담당 역할과 구현 내용 <span>↗</span></button></article>').join('');
-document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b))});document.querySelectorAll('.project-card').forEach(c=>c.hidden=b.dataset.filter!=='all'&&c.dataset.type!==b.dataset.filter)}));
-const dialog=document.querySelector('#project-dialog');let opener;document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{opener=b;const p=projects.find(p=>p.id===b.dataset.project);document.querySelector('#dialog-content').innerHTML='<p class="eyebrow">'+p.period+'</p><h2>'+p.subtitle+'</h2><p>'+p.desc+'</p><div class="project-tags">'+p.tags.map(t=>'<span>'+t+'</span>').join('')+'</div><h3>담당 역할</h3><p>'+p.role+'</p><h3>주요 구현과 기여</h3><ul>'+p.items.map(t=>'<li>'+t+'</li>').join('')+'</ul>'+implementationSection(p)+'<h3>결과 및 산출물</h3><p>'+p.result+'</p>'+(p.url?'<a class="button" target="_blank" rel="noopener" href="'+p.url+'">'+(p.linkLabel||(p.type==='team'?'GitHub 저장소':'회사 포트폴리오'))+' ↗</a>':'')+(p.notice?'<p class="small">'+p.notice+'</p>':'')+screenshotGallery(p);dialog.showModal();document.body.classList.add('modal-open')}));document.querySelector('#close-dialog').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});dialog.addEventListener('close',()=>{document.body.classList.remove('modal-open');opener?.focus()});document.querySelector('#copy-link').addEventListener('click',async()=>{const s=document.querySelector('#copy-status');try{await navigator.clipboard.writeText('https://kkhjo2176.github.io/');s.textContent='포트폴리오 주소를 복사했습니다.'}catch{s.textContent='포트폴리오 주소: https://kkhjo2176.github.io/'}});
+
+function renderTags(items, className = 'project-tags') {
+  return `<div class="${className}">${items.map(item => `<span>${item}</span>`).join('')}</div>`;
+}
+
+function cardVisual(project) {
+  if (project.cardVisual === 'image') {
+    return `<div class="project-visual real-visual"><img src="${project.cardImage}" alt="${project.title} 대표 화면" loading="lazy"><span>${project.type === 'work' ? '실무 프로젝트' : '교육 팀 프로젝트'}</span></div>`;
+  }
+
+  const visuals = {
+    grid: `<div class="concept-stage grid-stage"><div class="stage-top"><span>VUE 3 / REALGRID</span><span>개념도</span></div><div class="grid-window"><div><b>ERP / 품목 관리</b><span>•••</span></div><ol>${Array.from({ length: 20 }, (_, index) => `<li>${['품목코드', '품목명', '규격', '수량'][index] || '—'}</li>`).join('')}</ol></div></div>`,
+    legacy: `<div class="concept-stage legacy-stage"><div class="stage-top"><span>PHP / ORACLE SQL</span><span>분석 흐름</span></div><div class="code-lines"><i>SELECT</i><span>ERP_DATA</span><i>WHERE</i><span>BUSINESS_RULE</span><b>→ 조건·로직 정비</b></div></div>`,
+    terminal: `<div class="concept-stage terminal-stage"><div class="stage-top"><span>CENTOS / APACHE</span><span>운영 흐름</span></div><div class="terminal"><span>$ service-monitor --watch</span><b>✓ 상태 점검</b><b>✓ 이상 징후 알림</b><b>✓ 범위 내 대응</b><small>cron → check → notify</small></div></div>`,
+    payment: `<div class="concept-stage payment-stage"><div class="stage-top"><span>PAYMENT API / LOG</span><span>처리 흐름</span></div><div class="payment-flow"><span>요청</span><i>→</i><span>외부 결제</span><i>→</i><span>로그 추적</span><i>→</i><span>DB 저장</span></div></div>`
+  };
+  return `<div class="project-visual concept-visual" aria-label="${project.title} 기술 개념도">${visuals[project.cardVisual]}</div>`;
+}
+
+function projectCard(project, index) {
+  return `<article class="project-card" data-type="${project.type}">
+    ${cardVisual(project)}
+    <div class="project-meta"><b>${projectTypeLabel(project.type)} / 0${index + 1}</b><span>${project.period}</span></div>
+    <h3>${project.title}</h3>
+    <p class="card-subtitle">${project.subtitle}</p>
+    <dl class="card-facts"><div><dt>ROLE</dt><dd>${project.role}</dd></div><div><dt>KEY HIGHLIGHT</dt><dd>${project.highlight}</dd></div></dl>
+    <div class="card-footer">${renderTags(project.technologies.slice(0, 5))}<button class="detail-button" type="button" data-open-project="${project.id}" aria-haspopup="dialog">상세 보기 <span>→</span></button></div>
+  </article>`;
+}
+
+function renderTechGroups() {
+  const container = document.querySelector('#stack-groups');
+  container.innerHTML = techGroups.map((group, groupIndex) => `<section class="stack-group"><h3><span>0${groupIndex + 1}</span>${group.name}</h3><div class="tech-buttons">${group.technologies.map((tech, techIndex) => `<button type="button" class="tech-button" data-tech="${groupIndex}-${techIndex}" aria-pressed="false"><b>${tech.name}</b><span>${tech.levels.map(level => `<i class="level-dot ${level}" title="${levelLabels[level]}"></i>`).join('')}</span></button>`).join('')}</div></section>`).join('');
+}
+
+function renderTechInspector(tech, key) {
+  const inspector = document.querySelector('#tech-inspector');
+  const related = tech.projects.map(id => projects.find(project => project.id === id)).filter(Boolean);
+  inspector.innerHTML = `<p class="eyebrow">SELECTED TECHNOLOGY</p><div class="inspector-title"><h3>${tech.name}</h3><div>${tech.levels.map(level => `<span class="level-badge ${level}">${levelLabels[level]}</span>`).join('')}</div></div><p>${tech.usage}</p>${tech.experience ? `<div class="tech-context"><span>주요 활용 범위</span><p>${tech.experience}</p></div>` : ''}<div class="related-projects"><span>관련 대표 프로젝트</span>${related.length ? related.map(project => `<button type="button" data-open-project="${project.id}">${project.title} <i>↗</i></button>`).join('') : '<small>Additional Experience에서 관련 실무 사례 확인</small>'}</div>`;
+  document.querySelectorAll('[data-tech]').forEach(button => {
+    const selected = button.dataset.tech === key;
+    button.classList.toggle('active', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+}
+
+function renderAdditionalExperiences() {
+  document.querySelector('#experience-overview').innerHTML = `<p>${enterpriseServiceExperience.period}</p><h3>${enterpriseServiceExperience.title}</h3><div class="service-tags">${enterpriseServiceExperience.services.map(service => `<span>${service}</span>`).join('')}</div><ul>${enterpriseServiceExperience.responsibilities.map(item => `<li>${item}</li>`).join('')}</ul>`;
+  document.querySelector('#experience-list').innerHTML = additionalExperiences.map((item, index) => `<article><span>0${index + 1}</span><div><h3>${item.title}</h3><p>${item.description}</p>${renderTags(item.technologies, 'mini-tags')}</div></article>`).join('');
+}
+
+function overviewMeta(project) {
+  const items = [
+    ['구분', project.type === 'work' ? '실무 프로젝트' : '교육 팀 프로젝트'],
+    ['기간', project.period],
+    project.client ? ['고객사', project.client] : ['소속', project.organization],
+    ['담당 역할', project.role],
+    ['협업 범위', project.teamInfo]
+  ];
+  return `<dl class="overview-meta">${items.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>`;
+}
+
+function detailNav() {
+  return `<nav class="detail-nav" aria-label="프로젝트 상세 섹션"><a href="#detail-overview">Overview</a><a href="#detail-contributions">My Contributions</a><a href="#detail-implementation">Implementation</a><a href="#detail-star">STAR</a><a href="#detail-flow">Flow</a><a href="#detail-results">Results</a></nav>`;
+}
+
+function implementationCards(project) {
+  return `<div class="implementation-grid">${project.implementations.map((item, index) => `<article><div class="implementation-head"><span>0${index + 1}</span><div><h4>${item.title}</h4>${renderTags(item.technologies, 'implementation-tags')}</div></div><p>${item.description}</p><ul>${item.details.map(detail => `<li>${detail}</li>`).join('')}</ul></article>`).join('')}</div>`;
+}
+
+function starCards(project) {
+  const labels = [['S', 'Situation', project.star.situation], ['T', 'Task', project.star.task], ['A', 'Action', project.star.action], ['R', 'Result', project.star.result]];
+  return `<div class="star-grid">${labels.map(([letter, label, text]) => `<article><span>${letter}</span><div><h4>${label}</h4><p>${text}</p></div></article>`).join('')}</div>`;
+}
+
+function flowNode(node, className = '') {
+  return `<div class="flow-node ${className}"><b>${node.title}</b><small>${node.text}</small></div>`;
+}
+
+function flowDiagram(project) {
+  const { flow } = project;
+  let diagram = '';
+
+  if (flow.type === 'async-chunks') {
+    diagram = `<div class="flow-diagram async-flow" role="img" aria-label="조회 범위를 여러 청크로 비동기 요청하고 응답 순번에 따라 RealGrid 위치에 반영하는 구조">${flowNode(flow.nodes[0], 'flow-start')}<i>→</i><div class="chunk-stack">${flow.nodes.slice(1, 4).map(node => flowNode(node, 'flow-chunk')).join('')}</div><i>⇢</i>${flowNode(flow.nodes[4], 'flow-merge')}<i>→</i>${flowNode(flow.nodes[5], 'flow-target')}</div>`;
+  } else if (flow.type === 'relation') {
+    diagram = `<div class="flow-diagram relation-flow" role="img" aria-label="ERP 변경 기준과 PHP 입력 조건을 Oracle SQL에 함께 반영해 모바일 조회 결과를 수정하는 관계">${flowNode(flow.nodes[0], 'relation-source')}<i>기준 비교</i><div class="relation-stack">${flowNode(flow.nodes[1])}<span>↓ 조건 전달 · 결과 가공</span>${flowNode(flow.nodes[2])}</div><i>→</i>${flowNode(flow.nodes[3], 'flow-target')}</div>`;
+  } else if (flow.type === 'decision') {
+    diagram = `<div class="flow-diagram decision-flow" role="img" aria-label="Cron 점검 결과가 정상이면 대기하고 이상이면 문자 알림과 운영 대응으로 분기하는 구조">${flowNode(flow.nodes[0], 'flow-start')}<i>→</i>${flowNode(flow.nodes[1])}<i>→</i><div class="decision-branches"><div><span>정상</span>${flowNode(flow.nodes[2], 'normal-node')}</div><div><span>이상</span>${flowNode(flow.nodes[3], 'alert-node')}<i>→</i>${flowNode(flow.nodes[4], 'flow-target')}</div></div></div>`;
+  } else if (flow.type === 'risk') {
+    diagram = `<div class="flow-diagram risk-flow" role="img" aria-label="외부 결제 성공 후 내부 DB 저장 전에 세션 만료가 영향을 주던 지점을 강조한 결제 흐름">${flow.nodes.map((node, index) => `${index ? '<i>→</i>' : ''}${flowNode(node, index === 3 ? 'risk-node' : index === 4 ? 'flow-target' : '')}`).join('')}</div>`;
+  } else if (flow.type === 'dual-lane') {
+    diagram = `<div class="flow-diagram dual-lane-flow" role="img" aria-label="기상청 예보 수집 경로와 사용자 조회 경로가 MariaDB를 사이에 두고 분리된 구조">${flow.lanes.map(lane => `<div class="flow-lane"><strong>${lane.label}</strong><div>${lane.nodes.map((node, index) => `${index ? '<i>→</i>' : ''}${flowNode(node, node.title === 'MariaDB' ? 'flow-target' : '')}`).join('')}</div></div>`).join('')}</div>`;
+  } else if (flow.type === 'state') {
+    diagram = `<div class="flow-diagram state-flow" role="img" aria-label="문서 상신 후 현재 결재자가 승인하면 다음 결재자가 활성화되고 반려하면 종료되는 상태 흐름">${flowNode(flow.nodes[0], 'flow-start')}<i>→</i>${flowNode(flow.nodes[1], 'pending-node')}<div class="state-branches"><div><span>승인</span>${flowNode(flow.nodes[2])}<i>다음 결재자 있음 ↺</i>${flowNode(flow.nodes[3], 'approved-node')}</div><div><span>반려</span>${flowNode(flow.nodes[4], 'rejected-node')}</div></div></div>`;
+  } else {
+    diagram = `<div class="flow-diagram flow-row">${flow.nodes.map((node, index) => `${index ? '<i aria-hidden="true">→</i>' : ''}${flowNode(node)}`).join('')}</div>`;
+  }
+
+  return `<figure class="flow-figure"><figcaption><span>TECHNICAL FLOW · ${project.type === 'work' ? '공개 범위 개념도' : '구현 구조'}</span><strong>${flow.title}</strong><small>${flow.note}</small></figcaption>${diagram}</figure>`;
+}
+
+function imageGallery(project) {
+  if (!project.images?.length) return '';
+  return `<div class="evidence-gallery">${project.images.map(image => `<figure><a href="${image.src}" target="_blank" rel="noopener" aria-label="${image.title} 이미지 크게 보기"><img src="${image.src}" alt="${image.title}" loading="lazy"></a><figcaption><strong>${image.title}</strong><p>${image.caption}</p></figcaption></figure>`).join('')}</div>`;
+}
+
+function resultLinks(project) {
+  if (!project.links?.length) return '';
+  return `<div class="result-links">${project.links.map(link => `<a class="button" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label} <span>↗</span></a>`).join('')}</div>`;
+}
+
+function renderProjectDetail(project) {
+  return `<header class="dialog-hero" id="detail-overview"><p class="eyebrow">${projectTypeLabel(project.type)} · ${project.period}</p><h2 id="dialog-title">${project.title}</h2><h3>${project.subtitle}</h3><p>${project.summary}</p>${renderTags(project.technologies)}</header>
+    ${detailNav()}
+    <section class="detail-section overview-section"><div class="section-intro"><p class="section-label">01 · PROJECT OVERVIEW</p><h3>프로젝트 개요</h3></div>${overviewMeta(project)}</section>
+    <section class="detail-section" id="detail-contributions"><div class="section-intro"><p class="section-label">02 · MY CONTRIBUTIONS</p><h3>직접 구현한 범위</h3></div><ul class="contribution-list">${project.contributions.map(item => `<li>${item}</li>`).join('')}</ul></section>
+    <section class="detail-section" id="detail-implementation"><div class="section-intro"><p class="section-label">03 · TECHNICAL IMPLEMENTATION</p><h3>기술을 어디에, 어떻게 적용했는지</h3></div>${implementationCards(project)}</section>
+    <section class="detail-section" id="detail-star"><div class="section-intro"><p class="section-label">04 · PROBLEM SOLVING</p><h3>STAR 요약</h3><p>문제의 배경, 해결 기준과 검증 결과를 요약했습니다.</p></div>${starCards(project)}</section>
+    <section class="detail-section" id="detail-flow"><div class="section-intro"><p class="section-label">05 · ARCHITECTURE / FLOW</p><h3>처리 흐름</h3></div>${flowDiagram(project)}</section>
+    <section class="detail-section result-section" id="detail-results"><div class="section-intro"><p class="section-label">06 · RESULTS & REFERENCES</p><h3>검증 결과와 자료</h3></div><div class="result-summary"><p>${project.result}</p>${resultLinks(project)}</div>${imageGallery(project)}</section>`;
+}
+
+function openProject(projectId, opener) {
+  const project = projects.find(item => item.id === projectId);
+  if (!project) return;
+  dialogOpener = opener || document.activeElement;
+  dialogContent.innerHTML = renderProjectDetail(project);
+  dialog.scrollTop = 0;
+  dialog.showModal();
+  document.body.classList.add('modal-open');
+  requestAnimationFrame(() => {
+    dialog.scrollTop = 0;
+    document.querySelector('#close-dialog').focus();
+  });
+}
+
+grid.innerHTML = projects.map(projectCard).join('');
+renderTechGroups();
+renderAdditionalExperiences();
+renderTechInspector(techGroups[0].technologies[0], '0-0');
+
+document.addEventListener('click', event => {
+  const projectButton = event.target.closest('[data-open-project]');
+  if (projectButton) openProject(projectButton.dataset.openProject, projectButton);
+
+  const techButton = event.target.closest('[data-tech]');
+  if (techButton) {
+    const [groupIndex, techIndex] = techButton.dataset.tech.split('-').map(Number);
+    renderTechInspector(techGroups[groupIndex].technologies[techIndex], techButton.dataset.tech);
+  }
+});
+
+document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('[data-filter]').forEach(item => {
+    const active = item === button;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-pressed', String(active));
+  });
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.hidden = button.dataset.filter !== 'all' && card.dataset.type !== button.dataset.filter;
+  });
+}));
+
+document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
+
+dialog.addEventListener('click', event => {
+  if (event.target !== dialog) return;
+  const rect = dialog.getBoundingClientRect();
+  const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+  if (outside) dialog.close();
+});
+
+dialog.addEventListener('close', () => {
+  document.body.classList.remove('modal-open');
+  dialog.scrollTop = 0;
+  dialogOpener?.focus();
+});
+
+document.querySelector('#copy-link').addEventListener('click', async () => {
+  const status = document.querySelector('#copy-status');
+  try {
+    await navigator.clipboard.writeText('https://kkhjo2176.github.io/');
+    status.textContent = '포트폴리오 주소를 복사했습니다.';
+  } catch {
+    status.textContent = '포트폴리오 주소: https://kkhjo2176.github.io/';
+  }
+});
