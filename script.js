@@ -482,7 +482,32 @@ const levelLabels = {
 const grid = document.querySelector('#project-grid');
 const dialog = document.querySelector('#project-dialog');
 const dialogContent = document.querySelector('#dialog-content');
+const discoveryTip = document.querySelector('#discovery-tip');
+const discoveryTipTitle = document.querySelector('#discovery-tip-title');
+const discoveryTipDescription = document.querySelector('#discovery-tip-description');
+const discoveryTipClose = document.querySelector('#discovery-tip-close');
+const mobileDiscoveryQuery = window.matchMedia('(max-width: 720px)');
+const discoverySections = {
+  stack: {
+    element: document.querySelector('#stack'),
+    title: '✦ 기술을 선택해 보세요!',
+    description: '기술을 선택하면 실제 활용 경험과 관련 프로젝트를 확인할 수 있습니다.',
+    closeLabel: 'Tech Stack 안내 닫기',
+    dismissed: false,
+    isIntersecting: false
+  },
+  projects: {
+    element: document.querySelector('#projects'),
+    title: '✦ 프로젝트 카드를 눌러보세요!',
+    description: '담당 기능, 기술 구현 과정과 문제 해결 경험을 자세히 확인할 수 있습니다.',
+    closeLabel: 'Projects 안내 닫기',
+    dismissed: false,
+    isIntersecting: false
+  }
+};
 let dialogOpener = null;
+let activeDiscoveryKey = null;
+let discoveryUpdateFrame = null;
 
 function projectTypeLabel(type) {
   return type === 'work' ? 'PROFESSIONAL' : 'TEAM PROJECT';
@@ -509,6 +534,7 @@ function cardVisual(project) {
 function projectCard(project, index) {
   return `<article class="project-card" data-type="${project.type}">
     ${cardVisual(project)}
+    <b class="visual-detail-cue" aria-hidden="true">상세 보기 <i>→</i></b>
     <div class="project-meta"><b>${projectTypeLabel(project.type)} / 0${index + 1}</b><span>${project.period}</span></div>
     <h3>${project.title}</h3>
     <p class="card-subtitle">${project.subtitle}</p>
@@ -610,9 +636,119 @@ function renderProjectDetail(project) {
     <section class="detail-section result-section" id="detail-results"><div class="section-intro"><p class="section-label">06 · RESULTS & REFERENCES</p><h3>검증 결과와 자료</h3></div><div class="result-summary"><p>${project.result}</p>${resultLinks(project)}</div>${imageGallery(project)}</section>`;
 }
 
+function hideDiscoveryTip() {
+  discoveryTip.classList.remove('is-visible');
+  discoveryTip.setAttribute('aria-hidden', 'true');
+  discoveryTip.inert = true;
+  activeDiscoveryKey = null;
+}
+
+function showDiscoveryTip(key) {
+  const section = discoverySections[key];
+  if (!section || section.dismissed) return;
+
+  if (activeDiscoveryKey !== key) {
+    discoveryTipTitle.textContent = section.title;
+    discoveryTipDescription.textContent = section.description;
+    discoveryTipClose.setAttribute('aria-label', section.closeLabel);
+  }
+
+  activeDiscoveryKey = key;
+  discoveryTip.inert = false;
+  discoveryTip.setAttribute('aria-hidden', 'false');
+  discoveryTip.classList.add('is-visible');
+}
+
+function getDiscoveryCandidate(key, section) {
+  if (section.dismissed || !section.isIntersecting) return null;
+
+  const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const rect = section.element.getBoundingClientRect();
+  const visibleTop = Math.max(rect.top, 0);
+  const visibleBottom = Math.min(rect.bottom, viewportHeight);
+  const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+  const minimumVisibleHeight = Math.min(180, viewportHeight * .22);
+  if (visibleHeight < minimumVisibleHeight) return null;
+
+  const visibleViewportRatio = visibleHeight / viewportHeight;
+  const visibleCenter = visibleTop + (visibleHeight / 2);
+  const gazePoint = viewportHeight * .48;
+  const centerProximity = 1 - Math.min(1, Math.abs(visibleCenter - gazePoint) / (viewportHeight * .5));
+
+  return {
+    key,
+    score: (visibleViewportRatio * .72) + (centerProximity * .28)
+  };
+}
+
+function updateDiscoveryTip() {
+  discoveryUpdateFrame = null;
+
+  if (mobileDiscoveryQuery.matches || dialog.open) {
+    hideDiscoveryTip();
+    return;
+  }
+
+  const candidates = Object.entries(discoverySections)
+    .map(([key, section]) => getDiscoveryCandidate(key, section))
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score);
+
+  if (!candidates.length) {
+    hideDiscoveryTip();
+    return;
+  }
+
+  const current = candidates.find(candidate => candidate.key === activeDiscoveryKey);
+  const best = candidates[0];
+  const selected = current && current.score >= best.score - .08 ? current : best;
+  showDiscoveryTip(selected.key);
+}
+
+function scheduleDiscoveryTipUpdate() {
+  if (discoveryUpdateFrame !== null) return;
+  discoveryUpdateFrame = requestAnimationFrame(updateDiscoveryTip);
+}
+
+function dismissDiscoveryTip(key) {
+  const section = discoverySections[key];
+  if (!section) return;
+  section.dismissed = true;
+  if (activeDiscoveryKey === key) hideDiscoveryTip();
+}
+
+if ('IntersectionObserver' in window) {
+  const discoveryObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const key = entry.target.id === 'stack' ? 'stack' : 'projects';
+      discoverySections[key].isIntersecting = entry.isIntersecting;
+    });
+    scheduleDiscoveryTipUpdate();
+  }, {
+    threshold: [0, .05, .1, .15, .2, .3, .4, .5, .65, .8, 1]
+  });
+
+  Object.values(discoverySections).forEach(section => discoveryObserver.observe(section.element));
+} else {
+  Object.values(discoverySections).forEach(section => { section.isIntersecting = true; });
+  window.addEventListener('scroll', scheduleDiscoveryTipUpdate, { passive: true });
+  scheduleDiscoveryTipUpdate();
+}
+
+window.addEventListener('resize', scheduleDiscoveryTipUpdate);
+if (typeof mobileDiscoveryQuery.addEventListener === 'function') {
+  mobileDiscoveryQuery.addEventListener('change', scheduleDiscoveryTipUpdate);
+} else {
+  mobileDiscoveryQuery.addListener(scheduleDiscoveryTipUpdate);
+}
+discoveryTipClose.addEventListener('click', () => {
+  if (activeDiscoveryKey) dismissDiscoveryTip(activeDiscoveryKey);
+});
+
 function openProject(projectId, opener) {
   const project = projects.find(item => item.id === projectId);
   if (!project) return;
+  hideDiscoveryTip();
   dialogOpener = opener || document.activeElement;
   dialogContent.innerHTML = renderProjectDetail(project);
   dialog.scrollTop = 0;
@@ -631,10 +767,14 @@ renderTechInspector(techGroups[0].technologies[0], '0-0');
 
 document.addEventListener('click', event => {
   const projectButton = event.target.closest('[data-open-project]');
-  if (projectButton) openProject(projectButton.dataset.openProject, projectButton);
+  if (projectButton) {
+    if (projectButton.closest('.project-card')) dismissDiscoveryTip('projects');
+    openProject(projectButton.dataset.openProject, projectButton);
+  }
 
   const techButton = event.target.closest('[data-tech]');
   if (techButton) {
+    dismissDiscoveryTip('stack');
     const [groupIndex, techIndex] = techButton.dataset.tech.split('-').map(Number);
     renderTechInspector(techGroups[groupIndex].technologies[techIndex], techButton.dataset.tech);
   }
@@ -664,6 +804,7 @@ dialog.addEventListener('close', () => {
   document.body.classList.remove('modal-open');
   dialog.scrollTop = 0;
   dialogOpener?.focus();
+  scheduleDiscoveryTipUpdate();
 });
 
 document.querySelector('#copy-link').addEventListener('click', async () => {
